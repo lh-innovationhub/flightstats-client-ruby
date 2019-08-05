@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 module FlightStats
   # The exception class from which all FlightStats exceptions inherit.
   class Error < StandardError
-    def set_message message
+    def set_message(message)
       @message = message
     end
 
     # @return [String]
     def to_s
-      defined? @message and @message or super
+      defined?(@message) && @message || super
     end
   end
 
@@ -19,8 +21,8 @@ module FlightStats
     # @return [String] An APP id.
     # @raise [ConfigurationError] If not configured.
     def app_id
-      defined? @app_id and @app_id or raise(
-        ConfigurationError, "FlightStats.app_id not configured"
+      defined?(@app_id) && @app_id || raise(
+        ConfigurationError, 'FlightStats.app_id not configured'
       )
     end
     attr_writer :app_id
@@ -28,27 +30,28 @@ module FlightStats
     # @return [String] An APP key.
     # @raise [ConfigurationError] If not configured.
     def app_key
-      defined? @app_key and @app_key or raise(
-        ConfigurationError, "FlightStats.app_key not configured"
+      defined?(@app_key) && @app_key || raise(
+        ConfigurationError, 'FlightStats.app_key not configured'
       )
     end
     attr_writer :app_key
 
-
     def alert_deliveries
-      defined? @alert_deliveries and @alert_deliveries or raise(
-        ConfigurationError, "FlightStats.alert_deliveries not configured"
+      defined? @alert_deliveries && @alert_deliveries || raise(
+        ConfigurationError, 'FlightStats.alert_deliveries not configured'
       )
     end
     attr_writer :alert_deliveries
 
-
     def alert_type
-      allowed_formats = %w(JSON XML)
+      allowed_formats = %w[JSON XML]
       return 'JSON' if @alert_type.nil?
-      raise(
-        ConfigurationError, "FlightStats.alert_type is not valid, allowed: 'JSON', 'XML'"
-      ) unless allowed_formats.include?(@alert_type)
+
+      unless allowed_formats.include?(@alert_type)
+        raise(
+          ConfigurationError, "FlightStats.alert_type is not valid, allowed: 'JSON', 'XML'"
+        )
+      end
       @alert_type
     end
     attr_writer :alert_type
@@ -67,18 +70,20 @@ module FlightStats
 
     # Convenience logging method includes a Logger#progname dynamically.
     # @return [true, nil]
-    def log level, message
+    def log(level, message)
       logger.send(level, name) { message }
     end
 
-    if RUBY_VERSION <= "1.9.0"
-      def const_defined? sym, inherit = false
-        raise ArgumentError, "inherit must be false" if inherit
+    if RUBY_VERSION <= '1.9.0'
+      def const_defined?(sym, inherit = false)
+        raise ArgumentError, 'inherit must be false' if inherit
+
         super sym
       end
 
-      def const_get sym, inherit = false
-        raise ArgumentError, "inherit must be false" if inherit
+      def const_get(sym, inherit = false)
+        raise ArgumentError, 'inherit must be false' if inherit
+
         super sym
       end
     end
@@ -126,6 +131,7 @@ module FlightStats
   require 'flightstats/scheduled_gate_departure'
   require 'flightstats/actual_gate_arrival'
   require 'flightstats/actual_runway_arrival'
+  require 'flightstats/historical_flight'
 
   require 'flightstats/weather'
   require 'flightstats/metar'
@@ -144,7 +150,6 @@ module FlightStats
   require 'flightstats/city'
   require 'flightstats/zone_name'
   require 'flightstats/day_forecast'
-
 
   require 'flightstats/rating'
   require 'flightstats/alert'
