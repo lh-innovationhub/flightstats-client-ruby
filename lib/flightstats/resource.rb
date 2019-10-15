@@ -65,7 +65,7 @@ module FlightStats
         end
       end
 
-      JSON_PRIMITIVES = %w[FalseClass TrueClass Integer String].freeze
+      JSON_PRIMITIVES = %w[FalseClass TrueClass Numeric String].freeze
       def from_parsed_json(json, model_string)
         # Optimization - native type, nothing to build so bail early
         return json if JSON_PRIMITIVES.include?(json.class.name)
