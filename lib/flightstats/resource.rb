@@ -65,11 +65,12 @@ module FlightStats
         end
       end
 
+      JSON_PRIMITIVES = %w[FalseClass TrueClass Integer String].freeze
       def from_parsed_json(json, model_string)
         # Optimization - native type, nothing to build so bail early
-        if json.is_a? FalseClass or json.is_a? TrueClass or json.is_a? Fixnum or json.is_a? String
-          return json
-        elsif json.is_a? Array
+        return json if JSON_PRIMITIVES.include?(json.class.name)
+          
+        if json.is_a?(Array)
           value = []
           json.each do |one_value|
             value << from_parsed_json(one_value, model_string)
@@ -78,7 +79,7 @@ module FlightStats
         else
           model = string_to_model_with_caching(model_string)
 
-          if !model.nil? and !json.is_a? Hash
+          if !model.nil? and !json.is_a?(Hash)
             json
           else
             model.nil? ? json : model.send("new", json)
