@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
 
   s.files            = Dir['lib/**/*']
 
-  s.has_rdoc         = true
   s.extra_rdoc_files = %w(README.md)
   s.rdoc_options     = %w(--main README.md)
 
@@ -18,8 +17,8 @@ Gem::Specification.new do |s|
   s.homepage         = 'https://github.com/diditclear/flightstats-client-ruby'
   s.license          = 'MIT'
 
-  s.add_development_dependency 'rake',    '~> 0.9.2'
-  s.add_development_dependency 'rspec',   '~> 2.12.0'
-  s.add_development_dependency 'webmock', '~> 1.7.6'
+  s.add_development_dependency 'rake',    '~> 12.3.0'
+  s.add_development_dependency 'rspec',   '>= 2.14.0'
+  s.add_development_dependency 'webmock', '>= 2.3.1'
   s.add_development_dependency 'virtus'
 end
